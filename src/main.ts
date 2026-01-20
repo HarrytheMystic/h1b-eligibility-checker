@@ -15,11 +15,7 @@ interface InputSchema {
   location: string;
   userType?: 'applicant' | 'attorney';
   isPremium?: boolean;
-  attorneyBranding?: {
-    firmName?: string;
-    contactEmail?: string;
-    logo?: string;
-  };
+  attorneyBranding?: string;  // ← FIXED: string (JSON) instead of object
 }
 
 interface ResumeData {

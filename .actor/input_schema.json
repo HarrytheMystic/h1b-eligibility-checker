@@ -51,7 +51,7 @@
     },
     "attorneyBranding": {
       "title": "🏢 Attorney White-Label Branding (Attorneys Only)",
-      "type": "object",
+      "type": "string",
       "description": "Add your law firm branding to the output report. Only works if User Type = Attorney.",
       "editor": "textarea",
       "sectionDescription": "Enter JSON config as text. Example: {\"firmName\":\"Smith Immigration Law PC\",\"contactEmail\":\"contact@smithlaw.com\"}",
