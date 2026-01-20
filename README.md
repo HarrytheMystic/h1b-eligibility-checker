@@ -1,10 +1,10 @@
-# 🇺🇸 H1B Visa Eligibility Checker - Free AI-Powered Analysis
+# United States H1B Visa Eligibility Checker - Free AI-Powered Analysis
 
 **Get your H1B eligibility score in 2 minutes!** Upload your resume, get instant analysis of your chances, missing documents, lottery timeline, and personalized recommendations.
 
 ## 🎯 Perfect For
 
-- **300K+ H1B Applicants** - Indian IT professionals applying during March lottery
+- **H1B Applicants** - Indian IT professionals applying during March lottery
 - **Immigration Attorneys** - FREE unlimited access with white-label branding
 - **International Students** - F1 visa holders planning OPT to H1B transition
 - **Career Switchers** - Professionals evaluating H1B-eligible jobs
@@ -173,11 +173,6 @@ H1B visa eligibility, H1B checker, H1B lottery calculator, H1B visa requirements
 
 This Actor is part of the Apify $1M Challenge. Target: 5,000 MAUs by March 2025.
 
-**Revenue Model:**
-- Contest: $2/MAU × 5000 = $10,000
-- Premium: ₹99 × 1000 = $1,190
-- CLU Course Funnel: 5% × ₹5000 = $3,000
-
 ## 📄 License
 
 MIT License - Free to use and modify
@@ -186,4 +181,4 @@ MIT License - Free to use and modify
 
 **Built with ❤️ for the immigrant community**
 
-*Last Updated: January 2025*
+*Last Updated: January 2026*
