@@ -15,7 +15,7 @@
       "title": "📎 Or Upload Resume File (Option 2)",
       "type": "string",
       "description": "Upload your resume as PDF or DOCX file. Maximum 10MB. We'll extract text automatically.",
-      "editor": "file"
+      "editor": "fileupload"
     },
     "jobTitle": {
       "title": "💼 Job Title *",
@@ -53,21 +53,9 @@
       "title": "🏢 Attorney White-Label Branding (Attorneys Only)",
       "type": "object",
       "description": "Add your law firm branding to the output report. Only works if User Type = Attorney.",
-      "editor": "json",
-      "example": {
-        "firmName": "Smith Immigration Law PC",
-        "contactEmail": "contact@smithlaw.com",
-        "phone": "(555) 123-4567",
-        "website": "https://smithlaw.com",
-        "logo": "https://smithlaw.com/logo.png"
-      },
-      "prefill": {
-        "firmName": "",
-        "contactEmail": "",
-        "phone": "",
-        "website": "",
-        "logo": ""
-      }
+      "editor": "textarea",
+      "sectionDescription": "Enter JSON config as text. Example: {\"firmName\":\"Smith Immigration Law PC\",\"contactEmail\":\"contact@smithlaw.com\"}",
+      "example": "{\"firmName\":\"Smith Immigration Law PC\",\"contactEmail\":\"contact@smithlaw.com\",\"phone\":\"(555) 123-4567\",\"website\":\"https://smithlaw.com\",\"logo\":\"https://smithlaw.com/logo.png\"}"
     }
   },
   "required": ["jobTitle", "location"]
