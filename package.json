@@ -1,0 +1,37 @@
+{
+  "name": "h1b-eligibility-checker",
+  "version": "1.0.0",
+  "description": "AI-powered H1B visa eligibility checker with personalized analysis",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "npm run build && node dist/main.js",
+    "build": "tsc",
+    "test": "node dist/main.js"
+  },
+  "dependencies": {
+    "apify": "^3.1.10",
+    "pdf-parse": "^1.1.1",
+    "mammoth": "^1.6.0",
+    "@types/pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@apify/tsconfig": "^0.1.0",
+    "typescript": "^5.3.3"
+  },
+  "author": "H1B Checker Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/h1b-eligibility-checker"
+  },
+  "keywords": [
+    "h1b",
+    "visa",
+    "immigration",
+    "eligibility",
+    "checker",
+    "apify",
+    "automation"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "strongCandidate": {
+    "resumeText": "Master of Science in Computer Science, Stanford University (2018-2020)\n\nBachelor of Technology in Computer Science, IIT Delhi (2014-2018)\n\nSoftware Engineer, Google Inc. (2020-Present, 5 years)\n- Led migration of legacy monolith to microservices architecture\n- Reduced API response time by 40% through optimization\n- Mentored team of 5 junior engineers\n\nSkills: Python, Java, JavaScript, React, Node.js, AWS, Docker, Kubernetes, TypeScript, PostgreSQL, Redis, GraphQL\n\nCertifications:\n- AWS Solutions Architect\n- Certified Kubernetes Administrator",
+    "jobTitle": "Software Engineer",
+    "location": "Mountain View, CA",
+    "userType": "applicant",
+    "isPremium": true
+  },
+  
+  "moderateCandidate": {
+    "resumeText": "Bachelor of Engineering in Electronics and Communication Engineering, Anna University, Chennai (2016-2020)\n\nSoftware Developer, Infosys Limited, Bangalore (2020-2023, 3 years)\n- Developed web applications using Spring Boot framework\n- Implemented RESTful APIs for client applications\n- Participated in Agile development sprints\n\nSkills: Java, Python, SQL, JavaScript, Git, Spring Boot, HTML, CSS\n\nProjects:\n- E-commerce platform backend development\n- Payment gateway integration",
+    "jobTitle": "Software Developer",
+    "location": "Austin, TX",
+    "userType": "applicant",
+    "isPremium": false
+  },
+  
+  "experienceEquivalency": {
+    "resumeText": "Senior Software Engineer with 14 years of progressive experience in software development\n\nMicrosoft Corporation, Redmond WA (2010-2015, 5 years)\n- Senior Developer on Windows team\n- Led development of core OS components\n\nAmazon Web Services, Seattle WA (2015-2020, 5 years)\n- Principal Engineer on EC2 team\n- Designed scalable cloud infrastructure\n\nMeta Platforms Inc., Menlo Park CA (2020-Present, 4 years)\n- Staff Engineer on Infrastructure team\n- Manage team of 8 engineers\n\nSkills: Java, Python, C++, Go, JavaScript, React, Node.js, AWS, Docker, Kubernetes, TypeScript, Terraform\n\nLeadership:\n- Led migration to Kubernetes across 3 organizations\n- Authored 15+ technical design documents\n- Mentored 20+ engineers throughout career",
+    "jobTitle": "Senior Software Engineer",
+    "location": "Seattle, WA",
+    "userType": "applicant",
+    "isPremium": true
+  },
+  
+  "weakCandidate": {
+    "resumeText": "Completed 6-month coding bootcamp at General Assembly (2023)\n\nJunior Web Developer, Startup XYZ (2023-Present, 1.5 years)\n- Built responsive websites using HTML, CSS, JavaScript\n- Created simple CRUD applications\n- Learned React basics\n\nSkills: HTML, CSS, JavaScript, React, Git\n\nProjects:\n- Personal portfolio website\n- Todo list application\n- Weather app using public API",
+    "jobTitle": "Software Developer",
+    "location": "Austin, TX",
+    "userType": "applicant",
+    "isPremium": false
+  },
+  
+  "dataScientist": {
+    "resumeText": "Doctor of Philosophy (PhD) in Statistics, Massachusetts Institute of Technology (2015-2020)\nDissertation: \"Advanced Bayesian Methods for Causal Inference\"\n\nMaster of Science in Mathematics, Indian Institute of Technology Bombay (2013-2015)\n\nBachelor of Science in Statistics, Delhi University (2010-2013)\n\nData Scientist, Netflix Inc., Los Gatos CA (2020-Present, 5 years)\n- Lead data scientist for recommendation algorithms\n- Improved user engagement by 25% through ML models\n- Published 3 papers on applied machine learning\n\nSkills: Python, R, SQL, TensorFlow, PyTorch, Scikit-learn, Pandas, NumPy, Spark, AWS, Tableau\n\nPublications:\n- \"Deep Learning for Video Recommendations\" - KDD 2022\n- \"Causal Inference in A/B Testing\" - ICML 2023",
+    "jobTitle": "Data Scientist",
+    "location": "Los Gatos, CA",
+    "userType": "applicant",
+    "isPremium": true
+  },
+  
+  "businessAnalyst": {
+    "resumeText": "Master of Business Administration (MBA), Wharton School of Business, University of Pennsylvania (2020-2022)\nConcentration: Strategy and Analytics\n\nBachelor of Arts in Economics, Delhi University (2016-2020)\n\nBusiness Analyst, McKinsey & Company, New York NY (2022-Present, 3 years)\n- Conducted market analysis for Fortune 500 clients\n- Developed financial models and strategic recommendations\n- Led cross-functional teams of 5-8 consultants\n\nSkills: SQL, Python, Tableau, Excel, PowerPoint, R, Statistical Analysis, Financial Modeling\n\nCertifications:\n- Tableau Desktop Specialist\n- SQL for Data Science (Coursera)",
+    "jobTitle": "Business Analyst",
+    "location": "New York, NY",
+    "userType": "applicant",
+    "isPremium": false
+  },
+  
+  "attorneyClientScreening": {
+    "resumeText": "Bachelor of Science in Computer Science, University of California Berkeley (2016-2020)\nGPA: 3.8/4.0\n\nSoftware Engineer, Tesla Inc., Palo Alto CA (2020-Present, 4 years)\n- Full-stack developer on Autopilot team\n- Developed real-time data processing pipelines\n- Collaborated with AI/ML teams on model deployment\n\nSkills: Python, C++, Java, JavaScript, React, AWS, Docker, TensorFlow\n\nProjects:\n- Real-time vehicle telemetry system\n- Neural network inference optimization",
+    "jobTitle": "Software Engineer",
+    "location": "Palo Alto, CA",
+    "userType": "attorney",
+    "isPremium": false,
+    "attorneyBranding": {
+      "firmName": "Smith Immigration Law PC",
+      "contactEmail": "contact@smithlaw.com",
+      "phone": "(555) 123-4567",
+      "website": "https://smithlaw.com",
+      "logo": "https://example.com/smith-law-logo.png"
+    }
+  },
+  
+  "degreeMismatch": {
+    "resumeText": "Bachelor of Arts in Psychology, New York University (2015-2019)\n\nCareer switcher who completed coding bootcamp in 2020\n\nSoftware Developer, Tech Startup Inc. (2020-Present, 4 years)\n- Transitioned from marketing to software development\n- Built full-stack web applications\n- Self-taught programmer with strong portfolio\n\nSkills: JavaScript, Python, React, Node.js, MongoDB, Express.js\n\nProjects:\n- E-learning platform (10K users)\n- Task management SaaS product\n- Open source contributions on GitHub",
+    "jobTitle": "Software Developer",
+    "location": "San Francisco, CA",
+    "userType": "applicant",
+    "isPremium": true
+  }
+}
