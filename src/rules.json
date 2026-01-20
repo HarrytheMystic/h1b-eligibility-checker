@@ -1,0 +1,121 @@
+{
+  "version": "2025-01",
+  "lastUpdated": "2025-01-20",
+  "specialtyOccupation": {
+    "description": "Position must require bachelor's degree or 12 years equivalent experience",
+    "acceptedDegrees": [
+      "bachelor",
+      "master",
+      "phd",
+      "professional_degree"
+    ],
+    "equivalentExperience": {
+      "yearsRequired": 12,
+      "description": "3 years experience = 1 year degree education"
+    }
+  },
+  "jobCategories": {
+    "software_engineer": {
+      "title": "Software Engineer",
+      "acceptedDegrees": ["CS", "IT", "Computer Engineering", "ECE", "Software Engineering", "MIS"],
+      "relatedDegrees": ["Physics", "Mathematics", "Engineering"],
+      "minimumExperience": 0,
+      "alternativeQualification": "12_years_progressive_experience"
+    },
+    "data_scientist": {
+      "title": "Data Scientist / ML Engineer",
+      "acceptedDegrees": ["CS", "Statistics", "Mathematics", "Data Science", "ML"],
+      "relatedDegrees": ["Physics", "Engineering", "Economics"],
+      "minimumExperience": 0,
+      "alternativeQualification": "12_years_progressive_experience"
+    },
+    "business_analyst": {
+      "title": "Business Analyst",
+      "acceptedDegrees": ["Business Administration", "Finance", "Economics", "MIS", "CS"],
+      "relatedDegrees": ["Statistics", "Mathematics"],
+      "minimumExperience": 0,
+      "alternativeQualification": "12_years_progressive_experience"
+    },
+    "accountant": {
+      "title": "Accountant",
+      "acceptedDegrees": ["Accounting", "Finance"],
+      "relatedDegrees": ["Business Administration"],
+      "minimumExperience": 0,
+      "requiresCertification": "CPA preferred but not required",
+      "alternativeQualification": "12_years_progressive_experience"
+    },
+    "mechanical_engineer": {
+      "title": "Mechanical Engineer",
+      "acceptedDegrees": ["Mechanical Engineering"],
+      "relatedDegrees": ["Engineering"],
+      "minimumExperience": 0,
+      "alternativeQualification": "12_years_progressive_experience"
+    }
+  },
+  "wageLevels": {
+    "description": "Employer must pay prevailing wage for the occupation and location",
+    "levels": {
+      "level1": {
+        "description": "Entry level",
+        "experienceRequired": "0-2 years",
+        "typicalSalary": "$60,000 - $80,000"
+      },
+      "level2": {
+        "description": "Qualified",
+        "experienceRequired": "2-4 years",
+        "typicalSalary": "$80,000 - $100,000"
+      },
+      "level3": {
+        "description": "Experienced",
+        "experienceRequired": "4-6 years",
+        "typicalSalary": "$100,000 - $130,000"
+      },
+      "level4": {
+        "description": "Fully competent",
+        "experienceRequired": "6+ years",
+        "typicalSalary": "$130,000+"
+      }
+    }
+  },
+  "lotteryProcess": {
+    "registrationPeriod": "March 1-17 (typically)",
+    "lotteryDate": "Late March",
+    "selectionNotification": "Early April",
+    "petitionFilingStart": "April 1",
+    "startDate": "October 1",
+    "caps": {
+      "regularCap": 65000,
+      "mastersCap": 20000,
+      "total": 85000
+    },
+    "oddsEstimate": {
+      "bachelor": "~14-16% (varies by year)",
+      "master": "~26-30% (master + bachelor pool)"
+    }
+  },
+  "commonRejectionReasons": [
+    "Degree not related to job position",
+    "Salary below prevailing wage",
+    "Job duties don't require bachelor's degree",
+    "Incomplete LCA filing",
+    "Employer not financially stable",
+    "Position is not specialty occupation"
+  ],
+  "requiredDocuments": {
+    "employee": [
+      "Valid passport",
+      "Degree certificate & transcripts",
+      "Resume/CV",
+      "Previous US visa stamps (if any)",
+      "I-20/DS-2019 (if F1/J1 student)"
+    ],
+    "employer": [
+      "LCA (Labor Condition Application)",
+      "I-129 Petition",
+      "Support letter explaining job duties",
+      "Company financial documents",
+      "Degree evaluation (if foreign degree)",
+      "Proof of employer-employee relationship"
+    ]
+  }
+}
