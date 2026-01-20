@@ -1,0 +1,74 @@
+{
+  "title": "H1B Eligibility Checker - Input Form",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "resumeText": {
+      "title": "📄 Resume/CV Text (Option 1)",
+      "type": "string",
+      "description": "Paste your complete resume text here. Include education, work experience, and skills. Minimum 50 characters required.",
+      "editor": "textarea",
+      "example": "Master of Science in Computer Science, Stanford University (2018-2020)\n\nBachelor of Technology in Computer Science, IIT Delhi (2014-2018)\n\nSoftware Engineer, Google Inc. (2020-Present, 5 years)\n- Led microservices migration project\n- Reduced API latency by 40%\n\nSkills: Python, Java, React, Node.js, AWS, Docker, Kubernetes",
+      "minLength": 50
+    },
+    "resumeFile": {
+      "title": "📎 Or Upload Resume File (Option 2)",
+      "type": "string",
+      "description": "Upload your resume as PDF or DOCX file. Maximum 10MB. We'll extract text automatically.",
+      "editor": "file"
+    },
+    "jobTitle": {
+      "title": "💼 Job Title *",
+      "type": "string",
+      "description": "The H1B position you're applying for (e.g., Software Engineer, Data Scientist, Business Analyst)",
+      "editor": "textfield",
+      "example": "Software Engineer",
+      "minLength": 2
+    },
+    "location": {
+      "title": "📍 Work Location (US City, State) *",
+      "type": "string",
+      "description": "Where the job is located. This affects prevailing wage calculations.",
+      "editor": "textfield",
+      "example": "San Francisco, CA",
+      "minLength": 2
+    },
+    "userType": {
+      "title": "👤 User Type",
+      "type": "string",
+      "description": "Are you an applicant or an immigration attorney? Attorneys get FREE unlimited access!",
+      "editor": "select",
+      "enum": ["applicant", "attorney"],
+      "enumTitles": ["🙋 I'm an Applicant", "⚖️ I'm an Immigration Attorney (FREE Unlimited)"],
+      "default": "applicant"
+    },
+    "isPremium": {
+      "title": "🚀 Enable Premium Features (₹99 / $1.19)",
+      "type": "boolean",
+      "description": "Get lottery odds calculator, wage level lookup, complete timeline, support letter template, and document checklists. Attorneys get this FREE!",
+      "default": false,
+      "editor": "checkbox"
+    },
+    "attorneyBranding": {
+      "title": "🏢 Attorney White-Label Branding (Attorneys Only)",
+      "type": "object",
+      "description": "Add your law firm branding to the output report. Only works if User Type = Attorney.",
+      "editor": "json",
+      "example": {
+        "firmName": "Smith Immigration Law PC",
+        "contactEmail": "contact@smithlaw.com",
+        "phone": "(555) 123-4567",
+        "website": "https://smithlaw.com",
+        "logo": "https://smithlaw.com/logo.png"
+      },
+      "prefill": {
+        "firmName": "",
+        "contactEmail": "",
+        "phone": "",
+        "website": "",
+        "logo": ""
+      }
+    }
+  },
+  "required": ["jobTitle", "location"]
+}

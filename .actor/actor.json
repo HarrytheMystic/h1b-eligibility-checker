@@ -1,0 +1,33 @@
+{
+  "actorSpecification": 1,
+  "name": "h1b-eligibility-checker",
+  "title": "H1B Visa Eligibility Checker",
+  "description": "AI-powered H1B eligibility analyzer - Upload resume, get instant eligibility score, missing docs checklist, and lottery timeline. Free for attorneys!",
+  "version": "1.0.0",
+  "meta": {
+    "templateId": "javascript-start"
+  },
+  "input": "./.actor/input_schema.json",
+  "dockerfile": "./Dockerfile",
+  "readme": "./README.md",
+  "categories": ["AI", "TOOLS"],
+  "storefront": {
+    "title": "H1B Visa Eligibility Checker - Get Your Score in 2 Minutes",
+    "description": "Instant H1B eligibility analysis for 300K+ applicants. Upload resume → Get personalized score, missing docs, lottery odds & action plan. ⚖️ Free unlimited access for immigration attorneys!",
+    "categories": ["AI", "PRODUCTIVITY"],
+    "useCases": [
+      {
+        "title": "Check H1B Eligibility",
+        "description": "Upload your resume and job details to get instant eligibility score"
+      },
+      {
+        "title": "Attorney Client Screening",
+        "description": "Immigration attorneys get unlimited free access with white-label branding"
+      },
+      {
+        "title": "Lottery Timeline Planning",
+        "description": "Premium users get detailed timeline and support letter templates"
+      }
+    ]
+  }
+}
