@@ -1,5 +1,5 @@
 import { Actor } from 'apify';
-import * as pdfjsLib from 'pdf-parse';
+import pdfParse from 'pdf-parse';
 import * as mammoth from 'mammoth';
 
 // Import rules with proper typing
@@ -62,7 +62,7 @@ function incrementUsage(userId: string): void {
 // Parse PDF file
 async function parsePDF(buffer: Buffer): Promise<string> {
   try {
-    const data = await pdfjsLib(buffer);
+    const data = await pdfParse(buffer);
     return data.text;
   } catch (error) {
     console.error('PDF parsing error:', error);
