@@ -113,7 +113,7 @@ Why attorneys love us:
 - Share link with clients for self-service
 - Upsell legal services to qualified candidates
 
-**Apply for attorney access:** [Contact us](mailto:attorney@h1bchecker.com)
+**Apply for attorney access:** [Contact us](mailto:hariombisopia12@gmail.com)
 
 ## 📅 2025 H1B Timeline
 
@@ -167,9 +167,7 @@ H1B visa eligibility, H1B checker, H1B lottery calculator, H1B visa requirements
 
 ## 📞 Support
 
-- 📧 Email: support@h1bchecker.com
-- 💬 Discord: [Join community](https://discord.gg/h1b)
-- 📚 Docs: [Full documentation](https://docs.h1bchecker.com)
+- 📧 Email: hariombisopia12@gmail.com
 
 ## 🏆 Apify $1M Challenge
 
