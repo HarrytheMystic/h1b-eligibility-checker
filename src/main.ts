@@ -1,8 +1,6 @@
 import { Actor } from 'apify';
 import * as pdfjsLib from 'pdf-parse';
 import * as mammoth from 'mammoth';
-import * as fs from 'fs';
-import * as path from 'path';
 
 // Import rules with proper typing
 import rulesData from './rules.json';
@@ -353,18 +351,28 @@ Actor.main(async () => {
   
   const hasPremiumAccess = isPremium || isAttorney;
   
+  // Parse branding JSON
+  let branding = {};
+  if (isAttorney && attorneyBranding) {
+    try {
+      branding = JSON.parse(attorneyBranding);
+    } catch (e) {
+      console.warn('Invalid attorneyBranding JSON:', e);
+    }
+  }
+  
   // Parse resume
   let resumeContent = resumeText || '';
   
   if (resumeFile && !resumeContent) {
     try {
-      // Fetch the file from Apify key-value store
-      const store = await Actor.openKeyValueStore();
-      const fileBuffer = await store.getValue(resumeFile) as Buffer;
-      
-      if (!fileBuffer) {
-        throw new Error('Resume file not found');
+      // Fetch file directly from Apify URL
+      const response = await fetch(resumeFile);
+      if (!response.ok) {
+        throw new Error('Resume file not found or inaccessible');
       }
+      
+      const fileBuffer = Buffer.from(await response.arrayBuffer());
       
       // Detect file type and parse accordingly
       if (resumeFile.toLowerCase().endsWith('.pdf')) {
@@ -447,8 +455,8 @@ Actor.main(async () => {
           supportLetterTemplate: eligibility.supportLetterTemplate
         }
       }),
-      ...(isAttorney && attorneyBranding && {
-        branding: attorneyBranding
+      ...(isAttorney && Object.keys(branding).length > 0 && {
+        branding: branding
       }),
       disclaimer: '⚠️ This is an automated analysis tool. Results are not legal advice. Consult an immigration attorney for your specific case.',
       upgradePrompt: !hasPremiumAccess ? '🚀 Upgrade to Premium for lottery odds, wage lookup, timeline & support letter template! Only ₹99 ($1.19)' : null
