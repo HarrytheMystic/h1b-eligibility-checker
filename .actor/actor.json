@@ -29,5 +29,135 @@
         "description": "Premium users get detailed timeline and support letter templates"
       }
     ]
+  },
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "title": "H1B Eligibility Results",
+      "description": "H1B visa eligibility analysis results including scores, missing documents, and recommendations",
+      "views": {
+        "overview": {
+          "title": "Eligibility Overview",
+          "description": "Summary of H1B eligibility analysis results",
+          "transformation": {
+            "fields": [
+              "eligibilityScore",
+              "applicantName",
+              "jobTitle",
+              "employerName",
+              "overallAssessment",
+              "lotteryOdds",
+              "missingDocumentsCount",
+              "timestamp"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "eligibilityScore": {
+                "label": "Eligibility Score",
+                "format": "number"
+              },
+              "applicantName": {
+                "label": "Applicant Name",
+                "format": "text"
+              },
+              "jobTitle": {
+                "label": "Job Title",
+                "format": "text"
+              },
+              "employerName": {
+                "label": "Employer",
+                "format": "text"
+              },
+              "overallAssessment": {
+                "label": "Assessment",
+                "format": "text"
+              },
+              "lotteryOdds": {
+                "label": "Lottery Odds",
+                "format": "text"
+              },
+              "missingDocumentsCount": {
+                "label": "Missing Docs",
+                "format": "number"
+              },
+              "timestamp": {
+                "label": "Analysis Date",
+                "format": "date"
+              }
+            }
+          }
+        },
+        "detailed": {
+          "title": "Detailed Analysis",
+          "description": "Complete eligibility analysis with all details",
+          "transformation": {
+            "fields": [
+              "applicantName",
+              "eligibilityScore",
+              "jobTitle",
+              "employerName",
+              "educationLevel",
+              "yearsOfExperience",
+              "missingDocuments",
+              "recommendations",
+              "lotteryTimeline",
+              "overallAssessment",
+              "timestamp"
+            ]
+          },
+          "display": {
+            "component": "table",
+            "properties": {
+              "applicantName": {
+                "label": "Applicant Name",
+                "format": "text"
+              },
+              "eligibilityScore": {
+                "label": "Score (%)",
+                "format": "number"
+              },
+              "jobTitle": {
+                "label": "Job Title",
+                "format": "text"
+              },
+              "employerName": {
+                "label": "Employer",
+                "format": "text"
+              },
+              "educationLevel": {
+                "label": "Education",
+                "format": "text"
+              },
+              "yearsOfExperience": {
+                "label": "Experience (Years)",
+                "format": "number"
+              },
+              "missingDocuments": {
+                "label": "Missing Documents",
+                "format": "array"
+              },
+              "recommendations": {
+                "label": "Recommendations",
+                "format": "array"
+              },
+              "lotteryTimeline": {
+                "label": "Timeline",
+                "format": "text"
+              },
+              "overallAssessment": {
+                "label": "Assessment",
+                "format": "text"
+              },
+              "timestamp": {
+                "label": "Date",
+                "format": "date"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
