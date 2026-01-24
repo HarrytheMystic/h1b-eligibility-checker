@@ -14,6 +14,7 @@ interface InputSchema {
   userType?: 'applicant' | 'attorney';
   isPremium?: boolean;
   attorneyBranding?: string;
+  attorneyBarNumber?: string;
 }
 
 interface ResumeData {
@@ -42,9 +43,9 @@ interface EligibilityResult {
 // Simple in-memory usage tracking (for free tier limits)
 const usageTracker = new Map<string, number>();
 
-function checkUsageLimit(userId: string, isAttorney: boolean, isPremium: boolean): boolean {
-  if (isAttorney || isPremium) {
-    return true; // Unlimited for attorneys and premium users
+function checkUsageLimit(userId: string, isAttorney: boolean, isPremium: boolean, isPaidRun: boolean): boolean {
+  if (isAttorney || isPremium || isPaidRun) {
+    return true; // Unlimited for attorneys, premium users, and paid runs
   }
   
   const currentUsage = usageTracker.get(userId) || 0;
@@ -363,25 +364,87 @@ Actor.main(async () => {
     throw new Error('Input is required');
   }
   
-  const { resumeText, resumeFile, jobTitle, location, userType = 'applicant', isPremium = false, attorneyBranding } = input;
+  const { resumeText, resumeFile, jobTitle, location, userType = 'applicant', isPremium = false, attorneyBranding, attorneyBarNumber } = input;
   
-  // Check usage limits for free tier
-  const isAttorney = userType === 'attorney';
-  const userId = 'user-' + Date.now(); // In production, use actual user ID
+  // Check if this is a paid run (Apify automatically tracks this)
+  let isPaidRun = false;
+  try {
+    const runInfo = await Actor.getValue('RUN');
+    // Check if user paid for this specific run
+    isPaidRun = runInfo?.usage?.paidEvents?.includes('apify-default-dataset-item') || false;
+  } catch (error) {
+    console.log('Could not retrieve run payment info, assuming unpaid');
+    isPaidRun = false;
+  }
   
-  if (!checkUsageLimit(userId, isAttorney, isPremium)) {
+  // Verify attorney status (in production, verify bar number against a database)
+  const isAttorney = userType === 'attorney' && !!attorneyBarNumber;
+  
+  if (userType === 'attorney' && !attorneyBarNumber) {
     await Actor.pushData({
       success: false,
-      error: 'FREE_TIER_LIMIT_REACHED',
-      message: '🔒 You have reached the free tier limit (3 runs/month). Upgrade to Premium or apply for Attorney access for unlimited runs.',
-      upgradeUrl: 'https://apify.com/store/h1b-eligibility-checker'
+      error: 'ATTORNEY_VERIFICATION_REQUIRED',
+      message: '⚖️ Attorney Bar Number is required for free unlimited access. Please provide your bar number for verification.',
+      timestamp: new Date().toISOString()
     });
     return;
   }
   
-  const hasPremiumAccess = isPremium || isAttorney;
+  // Generate a unique user ID (in production, use actual user authentication)
+  const userId = 'user-' + Date.now();
   
-  // Parse branding JSON
+  // Check usage limits for free tier
+  if (!checkUsageLimit(userId, isAttorney, isPremium, isPaidRun)) {
+    await Actor.pushData({
+      success: false,
+      error: 'FREE_TIER_LIMIT_REACHED',
+      message: '🔒 You have reached the free tier limit (3 runs/month). Please choose an option to continue:',
+      pricingOptions: {
+        basicAnalysis: {
+          price: 1.99,
+          currency: 'USD',
+          eventName: 'apify-default-dataset-item',
+          features: [
+            'Eligibility score (0-100)',
+            'Degree and experience match analysis',
+            'Missing documents checklist',
+            'Risk factors identification',
+            'Personalized recommendations'
+          ]
+        },
+        premiumAnalysis: {
+          price: 4.99,
+          currency: 'USD',
+          eventName: 'premium-analysis',
+          features: [
+            'Everything in Basic Analysis',
+            'Lottery odds calculation',
+            'Wage level estimation',
+            'Detailed H1B timeline',
+            'Support letter template'
+          ]
+        },
+        attorneyAccess: {
+          price: 0,
+          currency: 'USD',
+          features: [
+            'Unlimited free analyses',
+            'White-label branding',
+            'Priority support',
+            'Bulk client screening'
+          ],
+          note: 'Verify your bar number to unlock'
+        }
+      },
+      upgradeUrl: 'https://apify.com/humorous_eccentric/h1b-eligibility-checker',
+      timestamp: new Date().toISOString()
+    });
+    return;
+  }
+  
+  const hasPremiumAccess = isPremium || isAttorney || (isPaidRun && isPremium);
+  
+  // Parse branding JSON for attorneys
   let branding = {};
   if (isAttorney && attorneyBranding) {
     try {
@@ -419,7 +482,8 @@ Actor.main(async () => {
       await Actor.pushData({
         success: false,
         error: 'FILE_PARSING_ERROR',
-        message: error instanceof Error ? error.message : 'Failed to parse resume file. Please paste resume text instead or ensure the file is a valid PDF/DOCX.'
+        message: error instanceof Error ? error.message : 'Failed to parse resume file. Please paste resume text instead or ensure the file is a valid PDF/DOCX.',
+        timestamp: new Date().toISOString()
       });
       return;
     }
@@ -429,7 +493,8 @@ Actor.main(async () => {
     await Actor.pushData({
       success: false,
       error: 'INVALID_RESUME',
-      message: 'Please provide resume text (minimum 50 characters) or upload a valid resume file (PDF/DOCX).'
+      message: 'Please provide resume text (minimum 50 characters) or upload a valid resume file (PDF/DOCX).',
+      timestamp: new Date().toISOString()
     });
     return;
   }
@@ -438,7 +503,8 @@ Actor.main(async () => {
     await Actor.pushData({
       success: false,
       error: 'MISSING_REQUIRED_FIELDS',
-      message: 'Job title and location are required fields.'
+      message: 'Job title and location are required fields.',
+      timestamp: new Date().toISOString()
     });
     return;
   }
@@ -447,8 +513,8 @@ Actor.main(async () => {
     const resumeData = await parseResume(resumeContent);
     const eligibility = calculateEligibility(resumeData, jobTitle, hasPremiumAccess);
     
-    // Increment usage for free tier
-    if (!isAttorney && !isPremium) {
+    // Increment usage for free tier (only if not paid, not attorney, not premium)
+    if (!isAttorney && !isPremium && !isPaidRun) {
       incrementUsage(userId);
     }
     
@@ -479,9 +545,9 @@ Actor.main(async () => {
       }
     ];
     
-    // Output matching the schema - THIS IS THE KEY CHANGE
+    // Output matching the schema
     await Actor.pushData({
-      // Core fields
+      // Core fields matching output_schema.json
       applicantName: resumeData.name || 'Not provided',
       eligibilityScore: eligibility.score,
       jobTitle: jobTitle,
@@ -526,9 +592,10 @@ Actor.main(async () => {
       analysisVersion: '1.0.0',
       userType: userType,
       
-      // Legacy output for backward compatibility (optional)
+      // Legacy output for backward compatibility
       success: true,
       isPremium: hasPremiumAccess,
+      isPaidRun: isPaidRun,
       analysis: {
         score: eligibility.score,
         verdict: eligibility.isEligible ? '✅ Likely Eligible' : '⚠️ May Face Challenges',
@@ -545,14 +612,18 @@ Actor.main(async () => {
       ...(hasPremiumAccess && eligibility.supportLetterTemplate && {
         supportLetterTemplate: eligibility.supportLetterTemplate
       }),
+      ...(isAttorney && Object.keys(branding).length > 0 && {
+        branding: branding
+      }),
       disclaimer: '⚠️ This is an automated analysis tool. Results are not legal advice. Consult an immigration attorney for your specific case.',
-      upgradePrompt: !hasPremiumAccess ? '🚀 Upgrade to Premium for lottery odds, wage lookup, timeline & support letter template! Only ₹99 ($1.19)' : null
+      upgradePrompt: !hasPremiumAccess && !isPaidRun ? '🚀 Upgrade to Premium for lottery odds, wage lookup, timeline & support letter template! Pay $4.99 for premium analysis.' : null
     });
     
     console.log(`✅ Analysis complete! Score: ${eligibility.score}/100`);
     console.log(`Applicant: ${resumeData.name}`);
     console.log(`Eligibility: ${eligibility.isEligible ? 'YES - Likely eligible' : 'NEEDS IMPROVEMENT'}`);
-    console.log(`User Type: ${userType} | Premium: ${hasPremiumAccess}`);
+    console.log(`User Type: ${userType} | Premium: ${hasPremiumAccess} | Paid: ${isPaidRun}`);
+    console.log(`Attorney: ${isAttorney} | Bar #: ${attorneyBarNumber || 'N/A'}`);
   } catch (error) {
     console.error('Analysis error:', error);
     await Actor.pushData({
