@@ -13,7 +13,7 @@ interface InputSchema {
   location: string;
   userType?: 'applicant' | 'attorney';
   isPremium?: boolean;
-  attorneyBranding?: string;  // ← FIXED: string (JSON) instead of object
+  attorneyBranding?: string;
 }
 
 interface ResumeData {
@@ -22,6 +22,7 @@ interface ResumeData {
   yearsExperience: number;
   skills: string[];
   rawText: string;
+  name?: string;
 }
 
 interface EligibilityResult {
@@ -81,9 +82,26 @@ async function parseDOCX(buffer: Buffer): Promise<string> {
   }
 }
 
+// Extract name from resume text
+function extractName(text: string): string {
+  const lines = text.split('\n').filter(line => line.trim().length > 0);
+  // First non-empty line is usually the name
+  if (lines.length > 0) {
+    const firstLine = lines[0].trim();
+    // Basic validation: should be 2-4 words, not too long
+    if (firstLine.length < 50 && firstLine.split(' ').length <= 4) {
+      return firstLine;
+    }
+  }
+  return 'Not provided';
+}
+
 // Resume parser
 async function parseResume(text: string): Promise<ResumeData> {
   const lowerText = text.toLowerCase();
+  
+  // Extract name
+  const name = extractName(text);
   
   // Extract degree
   let degree = 'none';
@@ -133,6 +151,7 @@ async function parseResume(text: string): Promise<ResumeData> {
   const skills = commonSkills.filter(skill => lowerText.includes(skill));
   
   return {
+    name,
     degree,
     major,
     yearsExperience,
@@ -308,9 +327,9 @@ This letter supports the H-1B petition for [CANDIDATE NAME] for the position of 
 
 POSITION REQUIREMENTS:
 The ${jobTitle} position requires a minimum of a bachelor's degree in ${resumeData.major} or a related field. The position involves:
-• [INSERT SPECIFIC JOB DUTY 1]
-• [INSERT SPECIFIC JOB DUTY 2]
-• [INSERT SPECIFIC JOB DUTY 3]
+- [INSERT SPECIFIC JOB DUTY 1]
+- [INSERT SPECIFIC JOB DUTY 2]
+- [INSERT SPECIFIC JOB DUTY 3]
 
 BENEFICIARY QUALIFICATIONS:
 [CANDIDATE NAME] holds a ${resumeData.degree} degree in ${resumeData.major} and has ${resumeData.yearsExperience} years of progressive experience in the field. Their qualifications directly match our requirements.
@@ -323,6 +342,17 @@ Sincerely,
 [TITLE]
 [COMPANY NAME]
 `.trim();
+}
+
+// Format education level for output
+function formatEducationLevel(degree: string): string {
+  const mapping: { [key: string]: string } = {
+    'phd': 'Doctorate (PhD)',
+    'master': "Master's Degree",
+    'bachelor': "Bachelor's Degree",
+    'none': 'No Degree'
+  };
+  return mapping[degree] || degree;
 }
 
 // Main Actor handler
@@ -422,10 +452,82 @@ Actor.main(async () => {
       incrementUsage(userId);
     }
     
-    // Generate output
-    const output = {
+    // Calculate eligibility breakdown
+    const eligibilityBreakdown = {
+      educationScore: eligibility.degreeMatch ? 90 : 40,
+      experienceScore: resumeData.yearsExperience >= 6 ? 90 : (resumeData.yearsExperience >= 2 ? 70 : 40),
+      jobQualificationScore: eligibility.score >= 80 ? 90 : (eligibility.score >= 60 ? 75 : 50),
+      documentationScore: eligibility.missingDocuments.length === 0 ? 100 : 70
+    };
+    
+    // Generate next steps
+    const nextSteps = [
+      ...(eligibility.missingDocuments.length > 0 ? [{
+        step: 'Gather all required documents listed below',
+        priority: 'High' as const,
+        deadline: 'Within 2 weeks'
+      }] : []),
+      ...(eligibility.recommendations.slice(0, 2).map(rec => ({
+        step: rec,
+        priority: 'High' as const,
+        deadline: 'Within 1-2 weeks'
+      }))),
+      {
+        step: 'Consult with immigration attorney for case review',
+        priority: 'Medium' as const,
+        deadline: 'Before lottery registration'
+      }
+    ];
+    
+    // Output matching the schema - THIS IS THE KEY CHANGE
+    await Actor.pushData({
+      // Core fields
+      applicantName: resumeData.name || 'Not provided',
+      eligibilityScore: eligibility.score,
+      jobTitle: jobTitle,
+      employerName: 'To be determined',
+      educationLevel: formatEducationLevel(resumeData.degree),
+      yearsOfExperience: resumeData.yearsExperience,
+      overallAssessment: eligibility.isEligible 
+        ? `Strong candidate with ${eligibility.score}% eligibility score. ${eligibility.riskFactors.length === 0 ? 'No major risk factors identified.' : 'Some areas need attention.'}` 
+        : `Eligibility score of ${eligibility.score}% indicates challenges. Review recommendations carefully.`,
+      lotteryOdds: eligibility.lotteryOdds || (resumeData.degree === 'master' || resumeData.degree === 'phd' ? '~25% (Advanced Degree)' : '~15% (Regular Cap)'),
+      lotteryTimeline: hasPremiumAccess && eligibility.timeline 
+        ? `Registration: ${eligibility.timeline.registrationPeriod}\nLottery: ${eligibility.timeline.lotteryDate}\nResults: ${eligibility.timeline.selectionNotification}\nStart: ${eligibility.timeline.startDate}`
+        : 'March 2026: Registration | April 2026: Lottery | October 2026: Start date',
+      missingDocuments: eligibility.missingDocuments,
+      missingDocumentsCount: eligibility.missingDocuments.length,
+      recommendations: eligibility.recommendations,
+      
+      // Detailed analysis fields
+      eligibilityBreakdown: eligibilityBreakdown,
+      specialtyOccupation: {
+        qualifies: eligibility.degreeMatch,
+        reason: eligibility.degreeMatch 
+          ? `${jobTitle} typically requires a bachelor's degree in ${resumeData.major} or related field` 
+          : 'Degree requirements may not fully align with position',
+        confidence: eligibility.score >= 80 ? 'High' : (eligibility.score >= 60 ? 'Medium' : 'Low')
+      },
+      employerEligibility: {
+        isEligible: true,
+        concerns: [],
+        notes: 'Employer eligibility should be verified independently'
+      },
+      nextSteps: nextSteps,
+      estimatedCosts: {
+        filingFees: 2000,
+        attorneyFees: 3500,
+        additionalCosts: 500,
+        total: 6000,
+        currency: 'USD'
+      },
+      capExemptEligible: false,
+      timestamp: new Date().toISOString(),
+      analysisVersion: '1.0.0',
+      userType: userType,
+      
+      // Legacy output for backward compatibility (optional)
       success: true,
-      userType,
       isPremium: hasPremiumAccess,
       analysis: {
         score: eligibility.score,
@@ -439,32 +541,16 @@ Actor.main(async () => {
         yearsExperience: resumeData.yearsExperience,
         keySkills: resumeData.skills
       },
-      jobDetails: {
-        title: jobTitle,
-        location: location,
-        category: normalizeJobTitle(jobTitle)
-      },
       riskFactors: eligibility.riskFactors,
-      recommendations: eligibility.recommendations,
-      requiredDocuments: eligibility.missingDocuments,
-      ...(hasPremiumAccess && {
-        premiumFeatures: {
-          lotteryOdds: eligibility.lotteryOdds,
-          wageLevel: eligibility.wageLevel,
-          timeline: eligibility.timeline,
-          supportLetterTemplate: eligibility.supportLetterTemplate
-        }
-      }),
-      ...(isAttorney && Object.keys(branding).length > 0 && {
-        branding: branding
+      ...(hasPremiumAccess && eligibility.supportLetterTemplate && {
+        supportLetterTemplate: eligibility.supportLetterTemplate
       }),
       disclaimer: '⚠️ This is an automated analysis tool. Results are not legal advice. Consult an immigration attorney for your specific case.',
       upgradePrompt: !hasPremiumAccess ? '🚀 Upgrade to Premium for lottery odds, wage lookup, timeline & support letter template! Only ₹99 ($1.19)' : null
-    };
-    
-    await Actor.pushData(output);
+    });
     
     console.log(`✅ Analysis complete! Score: ${eligibility.score}/100`);
+    console.log(`Applicant: ${resumeData.name}`);
     console.log(`Eligibility: ${eligibility.isEligible ? 'YES - Likely eligible' : 'NEEDS IMPROVEMENT'}`);
     console.log(`User Type: ${userType} | Premium: ${hasPremiumAccess}`);
   } catch (error) {
@@ -472,7 +558,8 @@ Actor.main(async () => {
     await Actor.pushData({
       success: false,
       error: 'ANALYSIS_ERROR',
-      message: error instanceof Error ? error.message : 'An unexpected error occurred during analysis. Please try again.'
+      message: error instanceof Error ? error.message : 'An unexpected error occurred during analysis. Please try again.',
+      timestamp: new Date().toISOString()
     });
   }
 });
