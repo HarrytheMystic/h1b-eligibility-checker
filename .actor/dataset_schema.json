@@ -1,0 +1,229 @@
+{
+  "actorDatasetSchemaVersion": 1,
+  "title": "H1B Eligibility Analysis Results",
+  "type": "object",
+  "description": "Complete H1B visa eligibility analysis output including scores, recommendations, and timelines",
+  "properties": {
+    "applicantName": {
+      "title": "Applicant Name",
+      "type": "string",
+      "description": "Name of the H1B visa applicant",
+      "editor": "textfield"
+    },
+    "eligibilityScore": {
+      "title": "Eligibility Score",
+      "type": "integer",
+      "description": "Overall H1B eligibility score (0-100)",
+      "editor": "number"
+    },
+    "jobTitle": {
+      "title": "Job Title",
+      "type": "string",
+      "description": "Position title for the H1B application",
+      "editor": "textfield"
+    },
+    "employerName": {
+      "title": "Employer Name",
+      "type": "string",
+      "description": "Name of the sponsoring employer",
+      "editor": "textfield"
+    },
+    "educationLevel": {
+      "title": "Education Level",
+      "type": "string",
+      "description": "Highest level of education completed",
+      "editor": "select",
+      "enum": [
+        "High School",
+        "Associate Degree",
+        "Bachelor's Degree",
+        "Master's Degree",
+        "Doctorate (PhD)",
+        "Professional Degree"
+      ]
+    },
+    "yearsOfExperience": {
+      "title": "Years of Experience",
+      "type": "number",
+      "description": "Total years of relevant work experience",
+      "editor": "number"
+    },
+    "overallAssessment": {
+      "title": "Overall Assessment",
+      "type": "string",
+      "description": "Summary assessment of eligibility status",
+      "editor": "textarea"
+    },
+    "lotteryOdds": {
+      "title": "Lottery Odds",
+      "type": "string",
+      "description": "Estimated lottery selection probability",
+      "editor": "textfield"
+    },
+    "lotteryTimeline": {
+      "title": "Lottery Timeline",
+      "type": "string",
+      "description": "Expected H1B lottery registration and selection timeline",
+      "editor": "textarea"
+    },
+    "missingDocuments": {
+      "title": "Missing Documents",
+      "type": "array",
+      "description": "List of required documents that are missing",
+      "editor": "json",
+      "items": {
+        "type": "string"
+      }
+    },
+    "missingDocumentsCount": {
+      "title": "Missing Documents Count",
+      "type": "integer",
+      "description": "Total number of missing documents",
+      "editor": "number"
+    },
+    "recommendations": {
+      "title": "Recommendations",
+      "type": "array",
+      "description": "Action items and recommendations to improve eligibility",
+      "editor": "json",
+      "items": {
+        "type": "string"
+      }
+    },
+    "eligibilityBreakdown": {
+      "title": "Eligibility Breakdown",
+      "type": "object",
+      "description": "Detailed breakdown of eligibility criteria scores",
+      "editor": "json",
+      "properties": {
+        "educationScore": {
+          "type": "integer"
+        },
+        "experienceScore": {
+          "type": "integer"
+        },
+        "jobQualificationScore": {
+          "type": "integer"
+        },
+        "documentationScore": {
+          "type": "integer"
+        }
+      }
+    },
+    "specialtyOccupation": {
+      "title": "Specialty Occupation Status",
+      "type": "object",
+      "description": "Assessment of whether the position qualifies as a specialty occupation",
+      "editor": "json",
+      "properties": {
+        "qualifies": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["High", "Medium", "Low"]
+        }
+      }
+    },
+    "employerEligibility": {
+      "title": "Employer Eligibility",
+      "type": "object",
+      "description": "Assessment of employer's ability to sponsor H1B",
+      "editor": "json",
+      "properties": {
+        "isEligible": {
+          "type": "boolean"
+        },
+        "concerns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "nextSteps": {
+      "title": "Next Steps",
+      "type": "array",
+      "description": "Prioritized action items for the applicant",
+      "editor": "json",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["High", "Medium", "Low"]
+          },
+          "deadline": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "estimatedCosts": {
+      "title": "Estimated Costs",
+      "type": "object",
+      "description": "Breakdown of expected H1B application costs",
+      "editor": "json",
+      "properties": {
+        "filingFees": {
+          "type": "number"
+        },
+        "attorneyFees": {
+          "type": "number"
+        },
+        "additionalCosts": {
+          "type": "number"
+        },
+        "total": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        }
+      }
+    },
+    "capExemptEligible": {
+      "title": "Cap-Exempt Eligible",
+      "type": "boolean",
+      "description": "Whether the position may qualify for cap-exempt H1B",
+      "editor": "checkbox"
+    },
+    "timestamp": {
+      "title": "Analysis Timestamp",
+      "type": "string",
+      "description": "Date and time when the analysis was performed",
+      "editor": "textfield",
+      "format": "date-time"
+    },
+    "analysisVersion": {
+      "title": "Analysis Version",
+      "type": "string",
+      "description": "Version of the eligibility checker used",
+      "editor": "textfield"
+    },
+    "userType": {
+      "title": "User Type",
+      "type": "string",
+      "description": "Type of user running the analysis",
+      "editor": "select",
+      "enum": ["applicant", "attorney", "employer", "consultant"]
+    }
+  },
+  "required": [
+    "eligibilityScore",
+    "overallAssessment",
+    "missingDocuments",
+    "recommendations",
+    "timestamp"
+  ]
+}
