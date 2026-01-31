@@ -1,62 +1,127 @@
 {
-  "title": "H1B Eligibility Checker - Input Form",
+  "title": "H1B Eligibility Checker",
+  "description": "Check your H1B visa eligibility with AI-powered analysis. Get personalized insights, timeline estimates, and professional recommendations.",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
-    "resumeText": {
-      "title": "📄 Resume/CV Text (Option 1)",
+    "userType": {
+      "title": "I am a/an",
       "type": "string",
-      "description": "Paste your complete resume text here. Include education, work experience, and skills. Minimum 50 characters required.",
+      "description": "🎓 Applicants: Pay-per-use pricing | ⚖️ Attorneys: FREE unlimited access with white-label branding",
+      "editor": "select",
+      "enum": ["applicant", "attorney"],
+      "default": "applicant",
+      "sectionCaption": "👤 User Information",
+      "sectionDescription": "Tell us who you are to customize your experience"
+    },
+    "resumeInputMethod": {
+      "title": "How would you like to provide your resume?",
+      "type": "string",
+      "description": "Choose the most convenient option for you",
+      "editor": "select",
+      "enum": ["text", "file"],
+      "default": "text",
+      "sectionCaption": "📄 Resume/CV Details",
+      "sectionDescription": "We need your background to assess eligibility"
+    },
+    "resumeText": {
+      "title": "Resume/CV Content",
+      "type": "string",
+      "description": "✍️ Paste your complete resume here. Include:\n• Education (degrees, universities, years)\n• Work Experience (job titles, companies, duration, achievements)\n• Skills (technical and soft skills)\n\n💡 Tip: The more detail you provide, the better our analysis!",
       "editor": "textarea",
-      "example": "Master of Science in Computer Science, Stanford University (2018-2020)\n\nBachelor of Technology in Computer Science, IIT Delhi (2014-2018)\n\nSoftware Engineer, Google Inc. (2020-Present, 5 years)\n- Led microservices migration project\n- Reduced API latency by 40%\n\nSkills: Python, Java, React, Node.js, AWS, Docker, Kubernetes",
-      "minLength": 50
+      "prefill": "EDUCATION\nMaster of Science in Computer Science\nStanford University | 2018-2020 | GPA: 3.8/4.0\n\nBachelor of Technology in Computer Science\nIIT Delhi | 2014-2018 | GPA: 3.9/4.0\n\nWORK EXPERIENCE\nSenior Software Engineer | Google Inc. | June 2020 - Present (5 years)\n• Led microservices migration for payment systems\n• Reduced API latency by 40% through optimization\n• Mentored team of 5 junior engineers\n\nSoftware Engineer Intern | Microsoft | Summer 2019\n• Built data analytics dashboard using React and Python\n\nSKILLS\nTechnical: Python, Java, JavaScript, React, Node.js, AWS, Docker, Kubernetes, PostgreSQL\nSoft Skills: Team Leadership, Agile/Scrum, Technical Documentation",
+      "default": "Master of Science in Computer Science, Stanford University (2018-2020). Bachelor of Technology, IIT Delhi (2014-2018). Senior Software Engineer at Google (2020-Present). Skills: Python, Java, React, AWS, Docker.",
+      "minLength": 100,
+      "maxLength": 50000
     },
     "resumeFile": {
-      "title": "📎 Or Upload Resume File (Option 2)",
+      "title": "Upload Resume",
       "type": "string",
-      "description": "Upload your resume as PDF or DOCX file. Maximum 10MB. We'll extract text automatically.",
+      "description": "📎 Supported formats: PDF, DOCX\n📏 Maximum size: 10 MB\n⚡ We'll automatically extract and analyze the text",
       "editor": "fileupload"
     },
     "jobTitle": {
-      "title": "💼 Job Title *",
+      "title": "Target Job Title",
       "type": "string",
-      "description": "The H1B position you're applying for (e.g., Software Engineer, Data Scientist, Business Analyst)",
+      "description": "💼 The position you're applying for on your H1B petition (e.g., Software Engineer, Data Scientist, Marketing Manager, Business Analyst)",
       "editor": "textfield",
-      "example": "Software Engineer",
-      "minLength": 2
+      "prefill": "Software Engineer",
+      "default": "Software Engineer",
+      "minLength": 2,
+      "maxLength": 200,
+      "sectionCaption": "💼 Job Position Details",
+      "sectionDescription": "Tell us about the H1B position"
+    },
+    "jobDescription": {
+      "title": "Job Description (Optional but Recommended)",
+      "type": "string",
+      "description": "📋 Paste the job description if available. This helps us assess specialty occupation requirements better.",
+      "editor": "textarea",
+      "prefill": "",
+      "maxLength": 10000
     },
     "location": {
-      "title": "📍 Work Location (US City, State) *",
+      "title": "Work Location",
       "type": "string",
-      "description": "Where the job is located. This affects prevailing wage calculations.",
+      "description": "📍 US City and State where you'll be working (e.g., San Francisco, CA or New York, NY)\n\n💡 This is used for prevailing wage calculations",
       "editor": "textfield",
-      "example": "San Francisco, CA",
-      "minLength": 2
+      "prefill": "San Francisco, CA",
+      "default": "San Francisco, CA",
+      "minLength": 2,
+      "maxLength": 100
     },
-    "userType": {
-      "title": "👤 User Type",
-      "type": "string",
-      "description": "Are you an applicant or an immigration attorney? Attorneys get FREE unlimited access!",
-      "editor": "select",
-      "enum": ["applicant", "attorney"],
-      "enumTitles": ["🙋 I'm an Applicant", "⚖️ I'm an Immigration Attorney (FREE Unlimited)"],
-      "default": "applicant"
+    "expectedSalary": {
+      "title": "Expected Annual Salary (USD) - Optional",
+      "type": "integer",
+      "description": "💰 Your expected annual salary. We'll check if it meets prevailing wage requirements.",
+      "editor": "number",
+      "minimum": 30000,
+      "maximum": 1000000,
+      "unit": "USD"
     },
     "isPremium": {
-      "title": "🚀 Enable Premium Features (₹99 / $1.19)",
+      "title": "Unlock Premium Analysis",
       "type": "boolean",
-      "description": "Get lottery odds calculator, wage level lookup, complete timeline, support letter template, and document checklists. Attorneys get this FREE!",
+      "description": "🚀 **Premium Features (₹99 / $1.19):**\n\n✅ H1B Lottery Odds Calculator (based on education level)\n✅ Detailed Prevailing Wage Level Analysis (I, II, III, IV)\n✅ Complete Timeline with Key Dates & Deadlines\n✅ Professional Support Letter Template\n✅ Document Preparation Checklists\n✅ Priority Processing Recommendations\n\n🎁 **FREE for Immigration Attorneys!**",
       "default": false,
+      "editor": "checkbox",
+      "sectionCaption": "🎯 Analysis Options",
+      "sectionDescription": "Choose your level of analysis"
+    },
+    "includeAlternatives": {
+      "title": "Include Alternative Visa Options",
+      "type": "boolean",
+      "description": "🔄 Get recommendations for other visa categories if H1B isn't suitable (O-1, L-1, E-2, etc.)",
+      "default": true,
       "editor": "checkbox"
     },
     "attorneyBranding": {
-      "title": "🏢 Attorney White-Label Branding (Attorneys Only)",
+      "title": "White-Label Branding Configuration",
       "type": "string",
-      "description": "Add your law firm branding to the output report. Only works if User Type = Attorney.",
+      "description": "🏢 **Attorney Feature:** Add your law firm's branding to client reports\n\n📝 Enter your firm details in JSON format:\n```json\n{\n  \"firmName\": \"Your Law Firm Name\",\n  \"contactEmail\": \"contact@yourfirm.com\",\n  \"phone\": \"(555) 123-4567\",\n  \"website\": \"https://yourfirm.com\",\n  \"logo\": \"https://yourfirm.com/logo.png\"\n}\n```\n\n⚠️ Only works when User Type = Attorney",
       "editor": "textarea",
-      "sectionDescription": "Enter JSON config as text. Example: {\"firmName\":\"Smith Immigration Law PC\",\"contactEmail\":\"contact@smithlaw.com\"}",
-      "example": "{\"firmName\":\"Smith Immigration Law PC\",\"contactEmail\":\"contact@smithlaw.com\",\"phone\":\"(555) 123-4567\",\"website\":\"https://smithlaw.com\",\"logo\":\"https://smithlaw.com/logo.png\"}"
+      "prefill": "",
+      "sectionCaption": "🏢 Attorney Branding (Attorneys Only)",
+      "sectionDescription": "Customize reports with your firm's information",
+      "maxLength": 2000
+    },
+    "outputFormat": {
+      "title": "Report Format",
+      "type": "string",
+      "description": "📊 Choose your preferred output format",
+      "editor": "select",
+      "enum": ["pdf", "html", "json"],
+      "default": "pdf",
+      "sectionCaption": "📤 Output Preferences"
+    },
+    "language": {
+      "title": "Report Language",
+      "type": "string",
+      "description": "🌍 Language for the eligibility report",
+      "editor": "select",
+      "enum": ["en", "es", "zh", "hi"],
+      "default": "en"
     }
   },
-  "required": ["jobTitle", "location"]
+  "required": ["userType", "resumeInputMethod", "jobTitle", "location"]
 }
